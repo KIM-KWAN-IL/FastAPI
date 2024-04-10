@@ -72,6 +72,7 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+#..
 
 
 from sqlalchemy.orm import Session
@@ -96,7 +97,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 
 # 데이터 생성하기
-def create_user(db: Session, user: schemas.UserCreate):
+def create_user(db: Session, user: schema.UserCreate):
     fake_hashed_password = user.password + "notreallyhashed"
 
     # SQLAlchemy 모델 인스턴스 만들기
@@ -112,7 +113,7 @@ def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Item).offset(skip).limit(limit).all()
 
 
-def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
+def create_user_item(db: Session, item: schema.ItemCreate, user_id: int):
     db_item = models.Item(**item.dict(), owner_id=user_id)
     db.add(db_item)
     db.commit()
