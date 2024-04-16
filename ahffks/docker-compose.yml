@@ -1,7 +1,7 @@
 services:
   fastapi:
     build:
-      context: .
-      dockerfile : .
+      context: C:\24년도 카엔프\FastAPI\ahffks   # Dockerfile이 있는 디렉토리의 경로
+      dockerfile: Dockerfile  # Dockerfile의 이름
     ports:
-      - 8080:8000
+      - 8081:8000
