@@ -1,6 +1,16 @@
 import pymysql
 from fastapi import FastAPI
 
+
+import sys, os
+
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from gpt_001 import gpt_test
+
+
+
+
+
 app = FastAPI()
 
 # 데이터베이스 연결 설정
@@ -29,3 +39,8 @@ def read_items():
     finally:
         # 데이터베이스 연결 종료
         connection.close()
+        
+
+@app.get("/gpt")
+def chat():
+    return gpt_test.result.content

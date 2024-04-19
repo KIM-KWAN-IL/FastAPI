@@ -1,6 +1,7 @@
 import os
 import openai
 
+
 os.environ['AZURE_OPENAI_API_KEY'] = 'aacf85de404249ae865bb3c69d51f77d'
 os.environ['AZURE_OPENAI_ENDPOINT'] = 'https://kwanku-openai-001.openai.azure.com/'
 os.environ['OPENAI_API_VERSION'] = '2023-05-15'
@@ -15,12 +16,12 @@ gpt = AzureOpenAI(
 
 from langchain.chat_models import AzureChatOpenAI
 
-# chatgpt = AzureChatOpenAI(
-#     deployment_name = 'gpt-35-turbo-16k',
-#     max_tokens = 1000
-# )
+chatgpt = AzureChatOpenAI(
+     deployment_name = 'gpt-35-turbo-16k',
+     max_tokens = 1000
+ )
 
-# from langchain.prompts import PromptTemplate, ChatPromptTemplate
+from langchain.prompts import PromptTemplate, ChatPromptTemplate
 
 # string_prompt = PromptTemplate.from_template('tell me a joke about {subject}')
 # string_prompt_value = string_prompt.format_prompt(subject = 'soccer')
@@ -44,6 +45,7 @@ prompt_template = PromptTemplate(
     template = cook_template
 )
 
+print("input val:" , ['아'])
 # result = chatgpt(prompt_template.format(재료 = '감자,쌀,고추장,빵,사과'))
 # print(result)
 
@@ -60,6 +62,7 @@ from langchain.schema import SystemMessage, HumanMessage, AIMessage
 system_message_prompt = SystemMessagePromptTemplate.from_template(cook_template)
 
 human_template = '{아}'
+print("*****: ", human_template)
 human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
 
 chat_prompt = ChatPromptTemplate.from_messages(
@@ -69,5 +72,5 @@ chat_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-result = chatgpt(chat_prompt.format_prompt(아='아 짜증나네. 민우가 내 음료수 훔쳐갔어').to_messages())
+result = chatgpt(chat_prompt.format_prompt(아='아 짜증나네. 민우가 내 볼펜을 훔쳐갔어').to_messages())
 print(result.content)
