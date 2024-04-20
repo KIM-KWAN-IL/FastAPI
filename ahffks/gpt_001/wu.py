@@ -50,10 +50,7 @@ system_instruction = '''
  {아}
 '''
 
-prompt_template = PromptTemplate(
-    input_variables = ['아'],
-    template = system_instruction
-)
+
 
 system_message_prompt = SystemMessagePromptTemplate.from_template(system_instruction)
 
@@ -76,7 +73,15 @@ chat_prompt = ChatPromptTemplate.from_messages(
 messages = [{"role": "system", "content": system_instruction}] 
 
 while True: 
-    user_input = input("user input: ") 
+
+
+
+    user_input = str(input("user input: ") )
+    print (user_input)
+    prompt_template = PromptTemplate(
+    input_variables = user_input,
+    template = system_instruction
+)
     bot_resp = ask(user_input) 
     
     print("-"*30) 

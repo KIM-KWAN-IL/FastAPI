@@ -72,5 +72,19 @@ chat_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-result = chatgpt(chat_prompt.format_prompt(아='아 짜증나네. 민우가 내 볼펜을 훔쳐갔어').to_messages())
-print(result.content)
+
+def chatting():
+    
+    while True:
+        print("-" * 30)
+
+        user_input = input("user input: ")
+        if user_input.lower() == "exit":
+            break
+
+        result = chatgpt(chat_prompt.format_prompt(아=user_input).to_messages())
+        print({user_input})
+        print(f"bot_resp: {result.content}")
+
+
+

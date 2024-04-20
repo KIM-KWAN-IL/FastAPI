@@ -11,6 +11,8 @@ from gpt_001 import gpt_test
 
 
 
+
+
 app = FastAPI()
 
 # 데이터베이스 연결 설정
@@ -41,6 +43,24 @@ def read_items():
         connection.close()
         
 
+@app.get("/member")
+def member():
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            # SQL 쿼리 실행
+            sql = "SELECT * FROM member"
+            cursor.execute(sql)
+
+            # 결과 가져오기
+            result = cursor.fetchall()
+            return result
+    finally:
+        # 데이터베이스 연결 종료
+        connection.close()
+    #return gpt_test.chatting()
+
+
 @app.get("/gpt")
 def chat():
-    return gpt_test.result.content
+    gpt_test.chatting
