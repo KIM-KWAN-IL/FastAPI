@@ -3,13 +3,21 @@ import openai
 from pydantic import BaseModel
 from fastapi import FastAPI
 from datetime import datetime
-# OPENAI_API 설정
-import sys, os
+from fastapi.middleware.cors import CORSMiddleware
+import os
+import json
 
-os.environ['AZURE_OPENAI_API_KEY'] = '**'
-os.environ['AZURE_OPENAI_ENDPOINT'] = 'https://kwanku-openai-001.openai.azure.com/'
-os.environ['OPENAI_API_VERSION'] = '2023-05-15'
-os.environ['OPENAI_API_TYPE'] = 'azure'
+json_file_path = "./chat_config.json"
+
+# JSON 파일을 읽습니다.
+with open(json_file_path, "r") as file:
+    chat_config = json.load(file)
+
+
+os.environ['AZURE_OPENAI_API_KEY'] = chat_config["key"]
+os.environ['AZURE_OPENAI_ENDPOINT'] = chat_config["endpoint"]
+os.environ['OPENAI_API_VERSION'] = chat_config["version"]
+os.environ['OPENAI_API_TYPE'] = chat_config["type"]
 
 
 from langchain.chat_models import AzureChatOpenAI
@@ -28,8 +36,19 @@ chatgpt = AzureChatOpenAI(
      deployment_name = 'gpt-35-turbo-16k',
      max_tokens = 1000
  )
+
+
  
 app = FastAPI()
+
+#CORS 설정 (HTTP 통신 원활히)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 chat_history = {"User": {}, "AI": {}}
 
@@ -42,7 +61,7 @@ messages = [
 
 
 bot_template = '''
-너는 심리상담 챗봇이야 아래에 따라서 답변을해줘.
+너는 심리상담 챗봇이야 아래에 따라서 최대 네문장으로 답변을해줘.
  - 아래
 
  {아래}
@@ -105,7 +124,8 @@ async def post_user_message(data: QuestionInput):
                 "content": answer,
             }
         )
-        return {"chat_history": chat_history}
+        return {"chat_history": answer,
+                "time": current_time}
     except Exception as e:
         return {"error": str(e)}
 

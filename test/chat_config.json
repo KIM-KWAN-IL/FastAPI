@@ -1,0 +1,6 @@
+{
+    "endpoint": "https://kwanku-openai-001.openai.azure.com/",
+    "key": "ddfea391b0014142a4b829ab480a1fd2",
+    "version": "2023-05-15",
+    "type": "azure"
+}
